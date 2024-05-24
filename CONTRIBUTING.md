@@ -1,8 +1,11 @@
-# Building new release
+# Contributing
 
-_TODO: This workflow should be improved_
+## Building new release
 
-- Clone the GitHub repository locally.
+> ⚠️ *TODO: This workflow should be improved*
+
+1. Clone the GitHub repository locally.
+
 - Create new Git branch (feature/name-of-feature).
 - Decide what the new full version number should be. If it's a pre-release, use -beta suffix in version number.
 - Build and push docker image
