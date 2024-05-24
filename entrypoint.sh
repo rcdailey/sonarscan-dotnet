@@ -28,7 +28,7 @@ echo "INPUT_DOTNETDISABLETESTS: $INPUT_DOTNETDISABLETESTS"
 echo "INPUT_SONARBEGINARGUMENTS: $INPUT_SONARBEGINARGUMENTS"
 echo "INPUT_SONARHOSTNAME: $INPUT_SONARHOSTNAME"
 
-# Environment variables that need to be mapped in Github Action 
+# Environment variables that need to be mapped in Github Action
 #     env:
 #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +57,7 @@ echo "INPUT_SONARHOSTNAME: $INPUT_SONARHOSTNAME"
 # ---------------------------------------------
 # export SONAR_TOKEN="your_token_from_sonarqube"
 
-# Simulate Github Action input variables  
+# Simulate Github Action input variables
 # export INPUT_SONARPROJECTKEY="your_projectkey"
 # export INPUT_SONARPROJECTNAME="your_projectname"
 # export INPUT_SONARORGANIZATION="your_organization"
@@ -79,6 +79,9 @@ echo "INPUT_SONARHOSTNAME: $INPUT_SONARHOSTNAME"
 # Execute Docker container
 # docker run --name sonarscan-dotnet --workdir /github/workspace --rm -e INPUT_SONARPROJECTKEY -e INPUT_SONARPROJECTNAME -e INPUT_SONARORGANIZATION -e INPUT_DOTNETBUILDARGUMENTS -e INPUT_DOTNETTESTARGUMENTS -e INPUT_DOTNETDISABLETESTS -e INPUT_SONARBEGINARGUMENTS -e INPUT_SONARHOSTNAME -e SONAR_TOKEN -e GITHUB_EVENT_NAME -e GITHUB_REPOSITORY -e GITHUB_REF -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -v "/var/run/docker.sock":"/var/run/docker.sock" -v $(pwd):"/github/workspace" sonarscan-dotnet
 
+# Add github workspace as a safe dir for git commands that run inside this container
+git config --global safe.directory '/github/workspace'
+
 #-----------------------------------
 # Build Sonarscanner begin command
 #-----------------------------------
@@ -89,7 +92,7 @@ fi
 if [ -n "$INPUT_SONARBEGINARGUMENTS" ]; then
     sonar_begin_cmd="$sonar_begin_cmd $INPUT_SONARBEGINARGUMENTS"
 fi
-# Check Github environment variable GITHUB_EVENT_NAME to determine if this is a pull request or not. 
+# Check Github environment variable GITHUB_EVENT_NAME to determine if this is a pull request or not.
 if [[ $GITHUB_EVENT_NAME == 'pull_request' ]]; then
     # Sonarqube wants these variables if build is started for a pull request
     # Sonarcloud parameters: https://sonarcloud.io/documentation/analysis/pull-request/
